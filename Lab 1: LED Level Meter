@@ -1,0 +1,51 @@
+const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
+const int pin9 = 9; // Analog output pin that the LED is attached to
+const int pin10 = 10; //
+const int pin11 = 11;
+const int pin12 = 12;
+
+int sensorValue = 0;        // value read from the pot
+int outputValue = 0;        // value output to the PWM (analog out)
+
+void setup() {
+  // initialize serial communications at 9600 bps:
+  Serial.begin(9600);
+  pinMode(pin9, OUTPUT);
+  pinMode(pin10, OUTPUT);
+  pinMode(pin11, OUTPUT);
+  pinMode(pin12, OUTPUT);     //every new LED needs to set the pin source to OUTPUT with pinMode
+}
+
+void loop() {
+  // read the analog in value:
+  sensorValue = analogRead(analogInPin);
+  // map it to the range of the analog out:
+  outputValue = map(sensorValue, 0, 1023, 0, 255);
+  // change the analog out value:
+  
+  //turns off arduino in output exceeds 127
+  if (outputValue > 50) {
+    digitalWrite(pin9, HIGH);
+  }
+  if (outputValue > 100) {
+    digitalWrite(pin10, HIGH);
+  }
+    if (outputValue > 150) {
+    digitalWrite(pin11, HIGH);
+  }
+    if (outputValue > 200) {
+    digitalWrite(pin12, HIGH);
+  }
+  
+  // print the results to the serial monitor:
+  Serial.print("sensor = " );
+  Serial.print(sensorValue);
+  Serial.print("\t output = ");
+  Serial.println(outputValue);
+
+  // wait 2 milliseconds before the next loop
+  // for the analog-to-digital converter to settle
+  // after the last reading:
+  delay(2);
+
+}
